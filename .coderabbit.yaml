@@ -1,0 +1,189 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit config — auto-review of UDC Workshop 2 homework PRs.
+# Workshop: "Промпт-інженерія та безпека роботи з AI" (artifacts-first).
+# Place this file in the ROOT of the practice repo.
+
+language: "uk-UA"
+tone_instructions: >
+  Ментор воркшопу UDC. Відповідай українською, доброзичливо але вимогливо.
+  Що пропущено — поясни що і чому. Статуси: ✅ зроблено, ⚠️ частково, ❌ пропущено.
+  Особлива увага до безпеки: якщо в дифі є реальні (не плейсхолдери) секрети,
+  ключі, токени або PII — познач це як ❌ критично й поясни, що ротувати/прибрати.
+
+early_access: false
+
+reviews:
+  profile: "assertive"
+  request_changes_workflow: false
+  high_level_summary: true
+  high_level_summary_placeholder: "@coderabbitai summary"
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  changed_files_summary: true
+  sequence_diagrams: false
+
+  auto_review:
+    enabled: true
+    drafts: true
+    auto_incremental_review: true
+    auto_pause_after_reviewed_commits: 0
+    base_branches:
+      - ".*"
+    ignore_title_keywords:
+      - "WIP"
+      - "[skip review]"
+    ignore_usernames:
+      - "dependabot[bot]"
+      - "renovate[bot]"
+      - "github-actions[bot]"
+
+  # ── File filters ──────────────────────────────────────────────
+  path_filters:
+    - "prompts/**"
+    - "docs/**"
+    - ".cursor/**"
+    - ".claude/**"
+    - ".github/**"
+    - "AGENTS.md"
+    - "CLAUDE.md"
+    - "app/src/**"
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/coverage/**"
+    - "!*.lock"
+    - "!**/package-lock.json"
+    - "!**/yarn.lock"
+    - "!**/*.min.js"
+    - "!**/*.min.css"
+
+  # ── Path-specific review instructions ─────────────────────────
+  path_instructions:
+    - path: "prompts/**"
+      instructions: |
+        Task A — prompt cookbook. Перевір: ≥10 структурованих промптів за
+        шаблоном (Role/Goal/Context/Constraints/Acceptance/Output/Stop), що
+        покривають тести, рев'ю, документацію, рефакторинг, дебаг. Мають бути
+        конкретні (наводять на app/src), не generic. Принаймні один промпт — у
+        двох діалектах (markdown + XML). Порожні/шаблонні — ⚠️/❌.
+
+    - path: ".cursor/commands/**"
+      instructions: |
+        Task A — промпти як команди. Перевір: ≥2 команди з frontmatter
+        `description` і параметром ($ARGUMENTS), підняті з cookbook. Те саме
+        приймається у `.claude/commands/**`.
+
+    - path: ".claude/commands/**"
+      instructions: |
+        Task A — промпти як команди (Claude Code). ≥2 команди з description і
+        параметром. Те саме приймається у `.cursor/commands/**`.
+
+    - path: "docs/sanitized-ticket.md"
+      instructions: |
+        Task B — санітизована версія materials/sensitive-ticket.md. Перевір:
+        НЕМАЄ реальних значень (картка/IBAN/email/телефон/паспорт/ІПН замасковані
+        або синтетичні); секрети ВИНЕСЕНІ out-of-band (не в документі); задача
+        збережена (можна зрозуміти суть бага). Якщо лишились справжні значення — ❌.
+
+    - path: "docs/sanitization-checklist.md"
+      instructions: |
+        Task B — багаторазовий чек-ліст санітизації. Перевір: класифікація
+        (🟢/🟡/🔴), техніки (redaction/masking/synthetic), правило для секретів
+        (out-of-band/ротація), мапінг категорія→інструмент/tier. Має бути
+        придатним для повторного використання командою, не одноразовим.
+
+    - path: "docs/injection-report.md"
+      instructions: |
+        Task C — звіт про prompt injection. Перевір: описано вектор (indirect,
+        materials/decoy-doc.md), що агент спробував ДО захисту, який захист додано
+        (правило data≠commands, заборона читати .env, HITL/least privilege),
+        результат ПІСЛЯ. Має бути конкретний до/після, не загальні слова.
+
+    - path: "docs/context-layer.md"
+      instructions: |
+        Task D — context layer. Перевір: покращено один шар контексту (app/AGENTS.md
+        або ignore-файл з ≥3 патернами), описано одну дію курації, і є РЕАЛЬНІ числа
+        токенів/контексту before/after (usage / /cost / repomix) + висновок. Без
+        чисел або без конкретної зміни — ⚠️/❌.
+
+    - path: "docs/ab-experiment.md"
+      instructions: |
+        Task E (bonus) — A/B промптів. Перевір: обидва промпти (базовий і
+        структурований) + порівняння (ітерації/токени/якість/правки безпеки) +
+        висновок. Необов'язкове; відсутність не помилка.
+
+    - path: "app/src/**"
+      instructions: |
+        Якщо учасник фіксив баг у money.ts через промпт — перевір, що фікс
+        коректний (напр. splitEvenly тепер розподіляє залишкові центи; applyDiscount
+        валідує percent) і покритий тестом. Прямі ручні правки без промпт-артефакта
+        в prompts/ — нагадай, що ціль завдання — керувати фіксом промптом.
+
+  # ── Pre-merge checks (grading) ────────────────────────────────
+  pre_merge_checks:
+    title:
+      mode: "warning"
+      requirements: >
+        PR title should follow: "WS2: <participant-name>".
+
+    description:
+      mode: "warning"
+
+    custom_checks:
+      - mode: "warning"
+        name: "Task A — prompt cookbook"
+        instructions: >
+          Check prompts/ has at least 10 structured prompt files following the
+          template (Role/Goal/Context/Constraints/Acceptance/Output/Stop), covering
+          tests, review, docs, refactor, debug; at least one prompt in two dialects
+          (markdown + XML); and at least 2 promoted commands under .cursor/commands/
+          OR .claude/commands/. PASS if all present and concrete; FAIL if missing
+          or generic/empty.
+
+      - mode: "warning"
+        name: "Task B — data sanitization"
+        instructions: >
+          Check docs/sanitized-ticket.md removes/masks/synthesizes all real values
+          from materials/sensitive-ticket.md (no real card/IBAN/email/phone/passport/
+          tax-id; secrets moved out-of-band) while preserving the task, AND
+          docs/sanitization-checklist.md is a reusable team checklist (classification,
+          techniques, secrets rule, category→tool mapping). PASS only if both present
+          and the sanitized doc leaks nothing.
+
+      - mode: "warning"
+        name: "Task C — prompt injection defense"
+        instructions: >
+          Check docs/injection-report.md documents the indirect injection from
+          materials/decoy-doc.md (what the agent tried before), the defense added
+          (data≠commands rule, no .env reads, HITL/least privilege), and the result
+          after (hidden command ignored). PASS if before/after is concrete.
+
+      - mode: "warning"
+        name: "Task D — context layer"
+        instructions: >
+          Check docs/context-layer.md improves one context layer (app/AGENTS.md OR
+          an ignore file with 3+ patterns), describes one curation action, and
+          includes REAL before/after token/context numbers (usage screen, /cost, or
+          repomix) plus a conclusion. PASS if a concrete change and real numbers are
+          present; FAIL if generic or numberless.
+
+      - mode: "warning"
+        name: "Task E — prompt A/B (bonus)"
+        instructions: >
+          Optional. If docs/ab-experiment.md exists, check it contains both prompts
+          (basic and structured) and a short comparison/conclusion. Absence is NOT
+          a failure.
+
+      - mode: "warning"
+        name: "Security — no real secrets or PII"
+        instructions: >
+          Scan the whole diff for REAL (non-placeholder, non-synthetic) secrets,
+          API keys, tokens, connection strings with passwords, or personal data.
+          Synthetic examples clearly marked as such (and the seeded materials/*) are
+          fine. If a real secret or real PII appears anywhere, FAIL and tell the
+          participant to remove it, rotate the secret, and rewrite history.
+
+chat:
+  auto_reply: true
