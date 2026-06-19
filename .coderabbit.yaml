@@ -5,11 +5,12 @@
 # Place this file in the ROOT of the practice repo.
 
 language: "uk-UA"
-tone_instructions: >
+# NOTE: CodeRabbit validates tone_instructions at <=250 chars. If it overflows,
+# the WHOLE config is rejected and default settings are used (custom grading lost).
+tone_instructions: >-
   Ментор воркшопу UDC. Відповідай українською, доброзичливо але вимогливо.
-  Що пропущено — поясни що і чому. Статуси: ✅ зроблено, ⚠️ частково, ❌ пропущено.
-  Особлива увага до безпеки: якщо в дифі є реальні (не плейсхолдери) секрети,
-  ключі, токени або PII — познач це як ❌ критично й поясни, що ротувати/прибрати.
+  Поясни, що пропущено і чому. Статуси: ✅ зроблено, ⚠️ частково, ❌ пропущено.
+  Реальні (не плейсхолдери) секрети, ключі чи PII — ❌ критично, скажи прибрати/ротувати.
 
 early_access: false
 
