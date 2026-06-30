@@ -11,7 +11,7 @@ safety, and maintainability — while keeping every existing test green.
 
 ## Baseline (weak)
 
-```
+```text
 refactor money.ts
 ```
 

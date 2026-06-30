@@ -11,7 +11,7 @@ covering remainder cents, negatives, bad input, and out-of-range discount.
 
 ## Baseline (weak)
 
-```
+```text
 write tests for money.ts
 ```
 

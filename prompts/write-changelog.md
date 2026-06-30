@@ -11,7 +11,7 @@ grouped by Added / Changed / Fixed / Removed in Keep a Changelog format.
 
 ## Baseline (weak)
 
-```
+```text
 write changelog for recent changes
 ```
 

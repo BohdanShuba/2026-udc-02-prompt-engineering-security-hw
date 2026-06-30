@@ -11,7 +11,7 @@ export plus a short `app/README.md` with usage examples and edge-case notes.
 
 ## Baseline (weak)
 
-```
+```text
 documented money.ts
 ```
 

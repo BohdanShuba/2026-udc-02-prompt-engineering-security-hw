@@ -11,7 +11,7 @@ descriptive errors for invalid inputs (zero/negative n, out-of-range percent, et
 
 ## Baseline (weak)
 
-```
+```text
 add validation to money.ts
 ```
 
@@ -53,7 +53,7 @@ logic or tests. Run typecheck before finishing.
 
 <context>
 Target: $ARGUMENTS (integer-cent money helpers). Tests in src/*.test.ts.
-Known gaps: splitEvenly(n=0), splitEvenly(n<0), applyDiscount(percent>100).
+Known gaps: splitEvenly(n=0), splitEvenly(n&lt;0), applyDiscount(percent&gt;100).
 </context>
 
 <constraints>

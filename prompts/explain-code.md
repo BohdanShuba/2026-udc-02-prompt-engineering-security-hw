@@ -11,7 +11,7 @@ a new team member can read to understand the module without reading source.
 
 ## Baseline (weak)
 
-```
+```text
 explain money.ts
 ```
 

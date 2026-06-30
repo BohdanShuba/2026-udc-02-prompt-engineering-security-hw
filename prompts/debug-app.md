@@ -11,7 +11,7 @@ with entry/exit logging that writes to a file under `app/log/`.
 
 ## Baseline (weak)
 
-```
+```text
 add logs to money.ts
 ```
 

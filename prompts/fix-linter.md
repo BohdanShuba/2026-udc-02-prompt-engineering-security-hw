@@ -11,7 +11,7 @@ and type-checker errors while keeping tests green.
 
 ## Baseline (weak)
 
-```
+```text
 fix lint errors in money.ts
 ```
 

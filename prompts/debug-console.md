@@ -12,7 +12,7 @@ by a `DEBUG` env var.
 
 ## Baseline (weak)
 
-```
+```text
 add console logs to money.ts
 ```
 
