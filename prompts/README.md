@@ -17,9 +17,14 @@ generic copies from the internet. This is Task A of the WS2 homework.
 |--------|----------|--------|----------|----------|
 | `review-pr.md` | review | `app/src/money.ts` | ✅ | — (example provided) |
 | `add-tests.md` | tests | `app/src/money.ts` | ✅ | `/add-tests` |
-| `add-docs.md` | docs | `app/src/money.ts` | ✅ | — |
+| `add-docs.md` | docs | `app/src/money.ts` | ✅ | `/add-docs` |
 | `refactor.md` | refactor | `app/src/money.ts` | — | — |
 | `debug-app.md` | debug | `app/src/money.ts` | ✅ | — |
+| `fix-linter.md` | lint/types | `app/src/money.ts` | — | — |
+| `write-changelog.md` | changelog | git diff / commit range | — | — |
+| `add-validation.md` | validation | `app/src/money.ts` | — | — |
+| `explain-code.md` | onboarding | `app/src/money.ts` | — | — |
+| `debug-console.md` | debug | `app/src/money.ts` | — | — |
 
 Cover at least: **tests, review, docs, refactoring, debug**. Include **one**
 prompt in both dialects (markdown + XML). See `docs/walkthrough.md` for the full
